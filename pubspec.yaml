@@ -33,6 +33,11 @@ dependencies:
   webview_flutter: ^4.5.0
   provider: ^6.1.2
   http: ^1.2.2
+  email_validator: ^3.0.0
+  string_validator: ^1.1.0
+  shared_preferences: ^2.2.3
+  image_picker: ^1.0.8
+  path_provider: ^2.0.11
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -60,6 +65,8 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
+  assets:
+    - assets/images/
 
   # To add assets to your application, add an assets section, like this:
   # assets:
