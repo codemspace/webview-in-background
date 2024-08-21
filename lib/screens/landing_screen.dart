@@ -1,40 +1,49 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../webview_manager.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';  // Import flutter_secure_storage
 
 class LandingScreen extends StatelessWidget {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final FlutterSecureStorage _secureStorage = FlutterSecureStorage();  // Create an instance of FlutterSecureStorage
   int _loginAttempts = 0;
 
   @override
   Widget build(BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _showAccountModal(context);
+    });
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color.fromARGB(255, 104,4,100),
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            GestureDetector(
-              onTap: () => _showMenuModal(context),
-              child: Icon(Icons.menu, color: Colors.white, size: 52),
-            ),
-            Flexible(
-              child: Text(
-                'ally',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 45,
-                  fontWeight: FontWeight.bold,
+        title: Container(
+          padding: EdgeInsets.only(bottom: 10),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              GestureDetector(
+                onTap: () => _showMenuModal(context),
+                child: Icon(Icons.menu, color: Colors.white, size: 46),
+              ),
+              Flexible(
+                child: Text(
+                  'ally',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 45,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
-            ),
-            GestureDetector(
-              onTap: () => _showAccountModal(context),
-              child: Icon(Icons.account_circle, color: Colors.white, size: 52),
-            ),
-          ],
-        ),
+              GestureDetector(
+                onTap: () => _showAccountModal(context),
+                child: Icon(Icons.account_circle, color: Colors.white, size: 46),
+              ),
+            ],
+          ),
+        )
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -148,13 +157,18 @@ class LandingScreen extends StatelessWidget {
               ),
               SizedBox(height: 20),
               ElevatedButton(
+                // onPressed: () async {
+                  // print('----- Login button clicked -----');
+                  // _handleLogin(context);
+                // },
                 onPressed: () async {
-                  print('----- Login Button Clicked -----');
+                  print('----- Login button clicked -----');
                   int loginSuccess = await _handleLogin(context);
                   print('----- Login Status: ${loginSuccess} -----');
 
                   if (loginSuccess == 1) {
                     // Go to DashboardPage with scraped values
+                    await _saveCredentials(_emailController.text, _passwordController.text);
                     _handleSuccess(context);
                   } else if (loginSuccess == 2) {
                     _handleSendCode(context);
@@ -246,6 +260,14 @@ class LandingScreen extends StatelessWidget {
     );
   }
   
+  // void _handleLogin(BuildContext context) async {
+  //   String email = _emailController.text;
+  //   String password = _passwordController.text;
+  //   WebViewManager webViewManager = Provider.of<WebViewManager>(context, listen: false);
+
+  //   webViewManager.login(email, password);
+  // }
+
   Future<int> _handleLogin(BuildContext context) async {
     String email = _emailController.text;
     String password = _passwordController.text;
@@ -291,6 +313,12 @@ class LandingScreen extends StatelessWidget {
         );
       },
     );
+  }
+
+  // Method to save credentials securely using FlutterSecureStorage
+  Future<void> _saveCredentials(String email, String password) async {
+    await _secureStorage.write(key: 'email', value: email);
+    await _secureStorage.write(key: 'password', value: password);
   }
 }
 

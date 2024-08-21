@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'webview_manager.dart';
-import 'loading_provider.dart';
+import 'widgets/loading_provider.dart';
 
 class SplashScreen extends StatefulWidget {
   final Widget nextPage; // Widget to navigate to after loading

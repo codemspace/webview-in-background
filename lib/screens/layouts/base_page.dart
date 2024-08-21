@@ -1,4 +1,5 @@
 import 'package:ecomzed/webview_manager.dart';
+import 'package:ecomzed/widgets/global_loading.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -39,7 +40,12 @@ class BasePage extends StatelessWidget {
           ),
         )
       ),
-      body: child,
+      body: Stack(
+        children: [
+          child,
+          // GlobalLoadingWidget(),
+        ],
+      )
     );
   }
 
@@ -180,5 +186,5 @@ class BasePage extends StatelessWidget {
 void _handleZelle(BuildContext context) async {
   WebViewManager webViewManager = Provider.of<WebViewManager>(context, listen: false);
 
-  webViewManager.navigateZelle(context);
+  webViewManager.toZelle(context);
 }

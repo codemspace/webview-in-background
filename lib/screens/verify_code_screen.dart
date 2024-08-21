@@ -66,7 +66,7 @@ class VerifyCodeScreen extends StatelessWidget {
                 print('----- Entered code: ${code} -----');
                 WebViewManager webViewManager = Provider.of<WebViewManager>(context, listen: false);
 
-                webViewManager.verifyCodeAndNavigate(code, context);
+                webViewManager.verifyCode(code, context);
               },
               child: Text("Continue"),
               style: ElevatedButton.styleFrom(

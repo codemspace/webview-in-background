@@ -190,11 +190,8 @@ class HomeScreen extends StatelessWidget {
               children: [
                 ElevatedButton(
                   onPressed: () {
-                    print('----------------- Go to profile page ---------------------');
                     WebViewManager webViewManager = Provider.of<WebViewManager>(context, listen: false);
-
-                    print('----------------- Go to profile page ---------------------');
-                    webViewManager.scrapeAndNavigateProfile(context);
+                    webViewManager.toProfile(context);
                   },
                   child: Text('Profile Setting'),
                   style: ElevatedButton.styleFrom(
@@ -235,7 +232,10 @@ class HomeScreen extends StatelessWidget {
               ),
               ListTile(
                 title: Text('Zelle', style: TextStyle(color: Colors.blue)),
-                onTap: () {},
+                onTap: () {
+                  WebViewManager webViewManager = Provider.of<WebViewManager>(context, listen: false);
+                  webViewManager.toZelle(context);
+                },
               ),
               ListTile(
                 title: Text('Bill Pay', style: TextStyle(color: Colors.blue)),
